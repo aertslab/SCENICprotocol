@@ -17,6 +17,7 @@ file( "${params.outdir}" ).mkdirs()
  */
 
 process filter {
+    cache 'deep'
 
     input:
     file loomUnfiltered from file( params.loom_input )
@@ -61,6 +62,7 @@ process preprocess {
 }
 
 process pca {
+    cache 'deep'
     input:
     file '01_preprocessed.h5ad' from SCpreprocess
     output:
@@ -74,6 +76,7 @@ process pca {
 }
 
 process visualize {
+    cache 'deep'
     input:
     file '02_pca.h5ad' from SCpca
     output:
@@ -87,6 +90,7 @@ process visualize {
 }
 
 process cluster {
+    cache 'deep'
     input:
     file '03_visualize.h5ad' from SCvisualize
     output:
