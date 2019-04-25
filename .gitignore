@@ -1,0 +1,9 @@
+*swp
+*swo
+work/
+*nextflow.log*
+.nextflow/
+*html*
+*png*
+output/
+notes
