@@ -5,5 +5,7 @@ work/
 .nextflow/
 *html*
 *png*
+*svg*
 output/
+testing/
 notes
