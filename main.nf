@@ -204,7 +204,7 @@ process AUCell {
     pyscenic aucell \
         $exprMat \
         reg.csv \
-        -o ${params.output} \
+        -o ${params.pyscenic_output} \
         --cell_id_attribute ${params.cell_id_attribute} \
         --gene_attribute ${params.gene_attribute} \
         --num_workers ${params.threads}
