@@ -25,6 +25,7 @@ process filter {
 
     output:
     file params.loom_filtered into expr
+    file 'anndata.h5ad' into SCfilter
 
     """
     filtering-basic.py \
@@ -51,7 +52,7 @@ process preprocess {
     cache 'deep'
     container params.scanpy_container
     input:
-    file params.loom_filtered from expr
+    file 'anndata.h5ad' from SCfilter
     output:
     file 'anndata.h5ad' into SCpreprocess
     """
@@ -62,7 +63,7 @@ process preprocess {
         --threads ${params.threads}
     """
 }
-/*
+
 process pca {
     cache 'deep'
     container params.scanpy_container
@@ -108,8 +109,6 @@ process cluster {
     """
 }
 
-*/
-
 /*
  * End of preprocess, visualize, project, cluster processing steps
  */
@@ -139,7 +138,6 @@ if( n==1 ) {
 tfs = file(params.TFs)
 motifs = file(params.motifs)
 
-/*
 process GRNinference {
     cache 'deep'
     container params.pyscenic_container
@@ -214,7 +212,6 @@ process AUCell {
 }
 
 AUCmat.last().collectFile(storeDir:params.outdir)
-*/
 
 /*
  * end of SCENIC steps

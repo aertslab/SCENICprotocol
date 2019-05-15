@@ -12,6 +12,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Basic filtering using Scanpy')
 parser.add_argument('--loom_input', help='Unfiltered loom file', required=True, default='unfiltered.loom' )
 parser.add_argument('--loom_filtered', help='Filtered loom file', required=True, default='filtered.loom' )
+parser.add_argument('--anndata', help='Intermediate filename storing Scanpy preprocessing output', required=False, default='anndata.h5ad' )
 parser.add_argument('--thr_min_genes', help='Threshold on minimum genes expressed per cell', required=False, default=200, type=int )
 parser.add_argument('--thr_min_cells', help='Threshold on minimum cells in which a gene is detected', required=False, default=3, type=int )
 parser.add_argument('--thr_n_genes', help='Threshold on maximum total counts per cell', required=False, default=5000, type=int )
@@ -86,6 +87,7 @@ def initialFiltering( args ):
     }
 
     lp.create(args.loom_filtered, adata.X.transpose(), row_attrs, col_attrs)
+    adata.write( args.anndata )
 
 if __name__ == "__main__":
     initialFiltering( args )

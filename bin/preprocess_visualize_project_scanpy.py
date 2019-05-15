@@ -11,8 +11,9 @@ import argparse
 
 def preprocess( args ):
     sc.logging.print_versions()
-    # read filtered data from a loom file
-    adata = sc.read_loom(args.loom_filtered)
+    # # read filtered data from a loom file
+    # adata = sc.read_loom(args.loom_filtered)
+    adata = sc.read_h5ad( args.anndata )
 
     # Total-count normalize (library-size correct) to 10,000 reads/cell
     sc.pp.normalize_per_cell(adata, counts_per_cell_after=1e4)
@@ -26,14 +27,6 @@ def preprocess( args ):
 
     # keep only highly variable genes:
     adata = adata[:, adata.var['highly_variable']]
-
-    # mito and genes/counts cuts
-    mito_genes = adata.var_names.str.startswith('MT-')
-    # for each cell compute fraction of counts in mito genes vs. all genes
-    adata.obs['percent_mito'] = np.sum(
-        adata[:, mito_genes].X, axis=1).A1 / np.sum(adata.X, axis=1).A1
-    # add the total counts per cell as observations-annotation to adata
-    adata.obs['n_counts'] = adata.X.sum(axis=1).A1
 
     # regress out total counts per cell and the percentage of mitochondrial genes expressed
     sc.pp.regress_out(adata, ['n_counts', 'percent_mito'], n_jobs=args.threads)
