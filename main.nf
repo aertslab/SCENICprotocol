@@ -53,27 +53,27 @@ process preprocess {
     input:
     file params.loom_filtered from expr
     output:
-    file '01_preprocessed.h5ad' into SCpreprocess
+    file 'anndata.h5ad' into SCpreprocess
     """
     preprocess_visualize_project_scanpy.py \
         preprocess \
         --loom_filtered ${params.loom_filtered} \
-        --ad_preprocessed 01_preprocessed.h5ad \
+        --anndata anndata.h5ad \
         --threads ${params.threads}
     """
 }
-
+/*
 process pca {
     cache 'deep'
     container params.scanpy_container
     input:
-    file '01_preprocessed.h5ad' from SCpreprocess
+    file 'anndata.h5ad' from SCpreprocess
     output:
-    file '02_pca.h5ad' into SCpca
+    file 'anndata.h5ad' into SCpca
     """
     preprocess_visualize_project_scanpy.py \
         pca \
-        --ad_pca 02_pca.h5ad \
+        --anndata anndata.h5ad \
         --threads ${params.threads}
     """
 }
@@ -82,13 +82,13 @@ process visualize {
     cache 'deep'
     container params.scanpy_container
     input:
-    file '02_pca.h5ad' from SCpca
+    file 'anndata.h5ad' from SCpca
     output:
-    file '03_visualize.h5ad' into SCvisualize
+    file 'anndata.h5ad' into SCvisualize
     """
     preprocess_visualize_project_scanpy.py \
         visualize \
-        --ad_visualize 03_visualize.h5ad \
+        --anndata anndata.h5ad \
         --threads ${params.threads}
     """
 }
@@ -97,17 +97,18 @@ process cluster {
     cache 'deep'
     container params.scanpy_container
     input:
-    file '03_visualize.h5ad' from SCvisualize
+    file 'anndata.h5ad' from SCvisualize
     output:
-    file '03_visualize.h5ad' into SCcluster
+    file 'anndata.h5ad' into SCcluster
     """
     preprocess_visualize_project_scanpy.py \
         cluster \
-        --ad_cluster 04_cluster.h5ad \
+        --anndata anndata.h5ad \
         --threads ${params.threads}
     """
 }
 
+*/
 
 /*
  * End of preprocess, visualize, project, cluster processing steps
@@ -138,6 +139,7 @@ if( n==1 ) {
 tfs = file(params.TFs)
 motifs = file(params.motifs)
 
+/*
 process GRNinference {
     cache 'deep'
     container params.pyscenic_container
@@ -212,6 +214,7 @@ process AUCell {
 }
 
 AUCmat.last().collectFile(storeDir:params.outdir)
+*/
 
 /*
  * end of SCENIC steps

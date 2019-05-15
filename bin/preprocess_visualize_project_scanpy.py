@@ -41,31 +41,30 @@ def preprocess( args ):
     # scale each gene to unit variance, clip values exceeding SD 10.
     sc.pp.scale(adata, max_value=10)
 
-    adata.write( args.ad_preprocessed )
+    adata.write( args.anndata )
 
 
 def pca( args ):
-    adata = sc.read_h5ad( args.ad_preprocessed )
+    adata = sc.read_h5ad( args.anndata )
     # principal component analysis
     sc.tl.pca(adata, svd_solver='arpack')
     sc.pl.pca_variance_ratio(adata, log=True)
-    adata.write( args.ad_pca )
-
+    adata.write( args.anndata )
 
 def pcaNdimSelect( args ):
     print( "pcaNdim" )
 
 def visualize( args ):
-    adata = sc.read_h5ad( args.ad_pca )
+    adata = sc.read_h5ad( args.anndata )
     # neighborhood graph of cells (determine optimal number of PCs here)
     sc.pp.neighbors(adata, n_neighbors=15, n_pcs=40)
     # compute UMAP
     sc.tl.umap(adata)
-    adata.write( args.ad_visualize )
+    adata.write( args.anndata )
 
 
 def cluster( args ):
-    adata = sc.read_h5ad( args.ad_visualize )
+    adata = sc.read_h5ad( args.anndata )
     # cluster the neighbourhood graph
     sc.tl.louvain(adata,resolution=0.4)
 
@@ -77,7 +76,7 @@ def cluster( args ):
     # sc.tl.rank_genes_groups(adata, 'louvain', method='logreg')
     # sc.pl.rank_genes_groups(adata, n_genes=25, sharey=False)
     pd.DataFrame(adata.uns['rank_genes_groups']['names']).head(10)
-    adata.write( args.ad_cluster )
+    adata.write( args.anndata )
 
 
 def dfToNamedMatrix(df):
@@ -107,10 +106,7 @@ parser.add_argument( 'command', choices=FUNCTIONS.keys() )
 parser.add_argument('--loom_filtered', help='Loom file with basic filtering', required=False, default='filtered.loom' )
 parser.add_argument('--threads', help='Maximum number of threads to use', required=False, default=6, type=int )
 
-parser.add_argument('--ad_preprocessed', help='Intermediate filename storing preprocessing output', required=False, default='01_preprocessed.h5ad' )
-parser.add_argument('--ad_pca', help='Intermediate filename storing pca output', required=False, default='02_pca.h5ad' )
-parser.add_argument('--ad_visualize', help='Intermediate filename storing visualization output', required=False, default='03_visualize.h5ad' )
-parser.add_argument('--ad_cluster', help='Intermediate filename storing clustering output', required=False, default='04_cluster.h5ad' )
+parser.add_argument('--anndata', help='Intermediate filename storing Scanpy preprocessing output', required=False, default='anndata.h5ad' )
 args = parser.parse_args()
 func = FUNCTIONS[args.command]
 
