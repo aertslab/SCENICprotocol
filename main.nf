@@ -198,7 +198,7 @@ process AUCell {
     file 'reg.csv' from regulons
 
     output:
-    file params.pyscenic_output into AUCmat
+    file params.pyscenic_output into scenicAUC1, scenicAUC2
 
     """
     pyscenic aucell \
@@ -211,14 +211,14 @@ process AUCell {
     """
 }
 
-AUCmat.last().collectFile(storeDir:params.outdir)
+// AUCmat.last().collectFile(storeDir:params.outdir)
 
 process visualizeAUC {
     cache 'deep'
     container params.scanpy_container
 
     input:
-    file params.pyscenic_output from AUCmat
+    file params.pyscenic_output from scenicAUC1
 
     output:
     file 'scenic_umap.txt' into aucDRumap
@@ -248,8 +248,10 @@ process integrateOutput {
     container params.scanpy_container
 
     input:
-    file params.pyscenic_output from AUCmat
+    file params.pyscenic_output from scenicAUC2
     file 'anndata.h5ad' from SCcluster
+    file 'scenic_umap.txt' from aucDRumap
+    file 'scenic_tsne.txt' from aucDRtsne
 
     output:
     file params.loom_output into finalLoom

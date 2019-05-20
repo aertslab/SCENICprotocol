@@ -9,7 +9,7 @@ import argparse
 import zlib
 import json
 import base64
-import datetime
+#import datetime
 
 ################################################################################
 ################################################################################
@@ -30,8 +30,18 @@ def dfToNamedMatrix(df):
     return arr
 
 def integrateOutput( args ):
+    # scanpy output
     adata = sc.read_h5ad( args.anndata )
+
+    # scenic output
     lf = lp.connect( args.loom_pyscenic, mode='r', validate=False )
+    meta = json.loads(zlib.decompress(base64.b64decode( lf.attrs.MetaData )))
+    auc_mtx = pd.DataFrame( lf.ca.RegulonsAUC, index=lf.ca.CellID)
+    regulons = lf.ra.Regulons
+    lf.close()
+    dr_umap = pd.read_csv( 'scenic_umap.txt', sep='\t', header=0, index_col=0 )
+    dr_tsne = pd.read_csv( 'scenic_tsne.txt', sep='\t', header=0, index_col=0 )
+    ###
 
     tsneDF = pd.DataFrame(adata.obsm['X_tsne'], columns=['_X', '_Y'])
 
@@ -43,6 +53,12 @@ def integrateOutput( args ):
 
     Embeddings_X["2"] = pd.DataFrame(adata.obsm['X_pca'])[0]
     Embeddings_Y["2"] = pd.DataFrame(adata.obsm['X_pca'])[1]
+
+    Embeddings_X["3"] = dr_tsne['X']
+    Embeddings_Y["3"] = dr_tsne['Y']
+
+    Embeddings_X["4"] = dr_umap['X']
+    Embeddings_Y["4"] = dr_umap['Y']
 
     pc_to_use = 2
 
@@ -60,7 +76,15 @@ def integrateOutput( args ):
         {
             "id": 2,
             "name": "Scanpy PC1/PC2"
-        }
+        },
+        {
+            "id": 3,
+            "name": "SCENIC AUC t-SNE"
+        },
+        {
+            "id": 4,
+            "name": "SCENIC AUC UMAP"
+        },
     ]
 
     metaJson["clusterings"] = [{
@@ -95,6 +119,8 @@ def integrateOutput( args ):
         #}
     ]
 
+    # SCENIC regulon thresholds:
+    metaJson["regulonThresholds"] = meta['regulonThresholds']
 
     for i in range(max(set([int(x) for x in adata.obs['louvain']])) + 1):
         clustDict = {}
@@ -117,12 +143,14 @@ def integrateOutput( args ):
         "Embedding": dfToNamedMatrix(tsneDF),
         "Embeddings_X": dfToNamedMatrix(Embeddings_X),
         "Embeddings_Y": dfToNamedMatrix(Embeddings_Y),
+        "RegulonsAUC": dfToNamedMatrix(auc_mtx),
         "Clusterings": dfToNamedMatrix(clusterings),
         "ClusterID": np.array(adata.obs['louvain'].values)
     }
 
     row_attrs = {
         "Gene": np.array(adata.var.index)
+        "Regulons": regulons,
     }
 
     attrs = {
@@ -136,20 +164,13 @@ def integrateOutput( args ):
 
     attrs['MetaData'] = base64.b64encode(zlib.compress(json.dumps(metaJson).encode('ascii'))).decode('ascii')
 
-    #f'/staging/leuven/stg_00003/cbd-bioinf/{project}/{sampleName}.loom'
-    #adata.raw.X
-    #datetime.date.today().strftime('%Y%m%d')
-
     lp.create(
         filename = args.loom_output ,
-        #layers=pd.DataFrame(adata.X.todense()).T.values, 
         layers=pd.DataFrame(adata.X).T.values, 
         row_attrs=row_attrs, 
         col_attrs=col_attrs, 
         file_attrs=attrs
     )
-
-
 
 if __name__ == "__main__":
     integrateOutput( args )
