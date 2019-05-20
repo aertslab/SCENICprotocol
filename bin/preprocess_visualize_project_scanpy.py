@@ -7,6 +7,10 @@ import loompy as lp
 import argparse
 from MulticoreTSNE import MulticoreTSNE as TSNE
 
+import zlib
+import json
+import base64
+
 ################################################################################
 ################################################################################
 
@@ -75,6 +79,19 @@ def cluster( args ):
     pd.DataFrame(adata.uns['rank_genes_groups']['names']).head(10)
     adata.write( args.anndata )
 
+def visualizeAUC( args ):
+    lf = lp.connect( args.pyscenic_output, mode='r', validate=False )
+    # UMAP
+    runUmap = umap.UMAP(n_neighbors=10, min_dist=0.4, metric='correlation').fit_transform
+    dr_umap = runUmap( auc_mtx )
+    pd.DataFrame(dr_umap, columns=['X', 'Y'], index=lf.ca.CellID).to_csv( "scenic_umap.txt", sep='\t')
+    # tSNE
+    tsne = TSNE( n_jobs=args.threads )
+    dr_tsne = tsne.fit_transform( auc_mtx )
+    pd.DataFrame(dr_tsne, columns=['X', 'Y'], index=lf.ca.CellID).to_csv( "scenic_tsne.txt", sep='\t')
+    #
+    lf.close()
+
 
 def dfToNamedMatrix(df):
     arr_ip = [tuple(i) for i in df.as_matrix()]
@@ -95,6 +112,7 @@ FUNCTIONS = {
     'pcaNdimSelect': pcaNdimSelect ,
     'visualize': visualize ,
     'cluster': cluster ,
+    'visualizeAUC': visualizeAUC ,
     'integrateOutput': integrateOutput ,
     }
 

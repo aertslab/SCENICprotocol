@@ -213,6 +213,26 @@ process AUCell {
 
 AUCmat.last().collectFile(storeDir:params.outdir)
 
+process visualizeAUC {
+    cache 'deep'
+    container params.scanpy_container
+
+    input:
+    file params.pyscenic_output from AUCmat
+
+    output:
+    file 'scenic_umap.txt' into aucDRumap
+    file 'scenic_tsne.txt' into aucDRtsne
+
+    """
+    preprocess_visualize_project_scanpy.py \
+        visualizeAUC \
+        --anndata anndata.h5ad \
+        --loom_pyscenic ${params.pyscenic_output} \
+        --loom_output ${params.loom_output}
+    """
+}
+
 /*
  * end of SCENIC steps
  */
