@@ -223,6 +223,26 @@ AUCmat.last().collectFile(storeDir:params.outdir)
  * results integration
  */
 
+process integrateOutput {
+    cache 'deep'
+    container params.scanpy_container
+
+    input:
+    file params.pyscenic_output from AUCmat
+    file 'anndata.h5ad' from SCcluster
+
+    output:
+    file params.loom_output into finalLoom
+
+    """
+    integrateOutput.py \
+        --anndata anndata.h5ad \
+        --loom_pyscenic ${params.pyscenic_output} \
+        --loom_output ${params.loom_output} \
+    """
+}
+finalLoom.last().collectFile(storeDir:params.outdir)
+
 /*
  * end of results integration
  */
