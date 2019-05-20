@@ -5,6 +5,7 @@ import pandas as pd
 import scanpy as sc
 import loompy as lp
 import argparse
+from MulticoreTSNE import MulticoreTSNE as TSNE
 
 ################################################################################
 ################################################################################
@@ -53,6 +54,9 @@ def visualize( args ):
     sc.pp.neighbors(adata, n_neighbors=15, n_pcs=40)
     # compute UMAP
     sc.tl.umap(adata)
+    # tSNE
+    tsne = TSNE(n_jobs=args.threads)
+    adata.obsm['X_tsne'] = tsne.fit_transform( adata.X )
     adata.write( args.anndata )
 
 
