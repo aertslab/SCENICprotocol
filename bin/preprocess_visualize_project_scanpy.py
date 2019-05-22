@@ -6,7 +6,7 @@ import scanpy as sc
 import loompy as lp
 import argparse
 from MulticoreTSNE import MulticoreTSNE as TSNE
-
+import umap
 import zlib
 import json
 import base64
@@ -80,7 +80,8 @@ def cluster( args ):
     adata.write( args.anndata )
 
 def visualizeAUC( args ):
-    lf = lp.connect( args.pyscenic_output, mode='r', validate=False )
+    lf = lp.connect( args.loom_pyscenic, mode='r', validate=False )
+    auc_mtx = pd.DataFrame( lf.ca.RegulonsAUC, index=lf.ca.CellID)
     # UMAP
     runUmap = umap.UMAP(n_neighbors=10, min_dist=0.4, metric='correlation').fit_transform
     dr_umap = runUmap( auc_mtx )
@@ -119,6 +120,7 @@ FUNCTIONS = {
 parser = argparse.ArgumentParser(description='Preprocess, visualize, project using Scanpy.')
 parser.add_argument( 'command', choices=FUNCTIONS.keys() )
 parser.add_argument('--loom_filtered', help='Loom file with basic filtering', required=False, default='filtered.loom' )
+parser.add_argument('--loom_pyscenic', help='Loom file from pySCENIC', required=False, default='pyscenic.loom' )
 parser.add_argument('--threads', help='Maximum number of threads to use', required=False, default=6, type=int )
 
 parser.add_argument('--anndata', help='Intermediate filename storing Scanpy preprocessing output', required=False, default='anndata.h5ad' )

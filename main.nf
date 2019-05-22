@@ -227,9 +227,7 @@ process visualizeAUC {
     """
     preprocess_visualize_project_scanpy.py \
         visualizeAUC \
-        --anndata anndata.h5ad \
         --loom_pyscenic ${params.pyscenic_output} \
-        --loom_output ${params.loom_output}
     """
 }
 
