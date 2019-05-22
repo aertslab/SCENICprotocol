@@ -38,7 +38,6 @@ def integrateOutput( args ):
     meta = json.loads(zlib.decompress(base64.b64decode( lf.attrs.MetaData )))
     auc_mtx = pd.DataFrame( lf.ca.RegulonsAUC, index=lf.ca.CellID)
     regulons = lf.ra.Regulons
-    lf.close()
     dr_umap = pd.read_csv( 'scenic_umap.txt', sep='\t', header=0, index_col=0 )
     dr_tsne = pd.read_csv( 'scenic_tsne.txt', sep='\t', header=0, index_col=0 )
     ###
@@ -149,7 +148,7 @@ def integrateOutput( args ):
     }
 
     row_attrs = {
-        "Gene": np.array(adata.var.index)
+        "Gene": lf.ra.Gene,
         "Regulons": regulons,
     }
 
@@ -166,11 +165,12 @@ def integrateOutput( args ):
 
     lp.create(
         filename = args.loom_output ,
-        layers=pd.DataFrame(adata.X).T.values, 
+        layers=lf[:,:],
         row_attrs=row_attrs, 
         col_attrs=col_attrs, 
         file_attrs=attrs
     )
+    lf.close()
 
 if __name__ == "__main__":
     integrateOutput( args )
