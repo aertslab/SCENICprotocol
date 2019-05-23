@@ -51,35 +51,38 @@ def integrateOutput( args ):
         tmp = x.get('regulon').replace("(","_(")
         x.update( {'regulon': tmp} )
 
+    ### embeddings
     tsneDF = pd.DataFrame(adata.obsm['X_tsne'], columns=['_X', '_Y'])
 
-    Embeddings_X = pd.DataFrame()
-    Embeddings_Y = pd.DataFrame()
+    Embeddings_X = pd.DataFrame( index=lf.ca.CellID )
+    Embeddings_X = pd.concat( [
+            pd.DataFrame(adata.obsm['X_umap'],index=adata.obs.index)[0] ,
+            pd.DataFrame(adata.obsm['X_pca'],index=adata.obs.index)[0] ,
+            dr_tsne['X'] ,
+            dr_umap['X']
+        ], sort=False, axis=1, join='outer' )
 
-    Embeddings_X["1"] = pd.DataFrame(adata.obsm['X_umap'])[0]
-    Embeddings_Y["1"] = pd.DataFrame(adata.obsm['X_umap'])[1]
-
-    Embeddings_X["2"] = pd.DataFrame(adata.obsm['X_pca'])[0]
-    Embeddings_Y["2"] = pd.DataFrame(adata.obsm['X_pca'])[1]
-
-    Embeddings_X["3"] = dr_tsne['X']
-    Embeddings_Y["3"] = dr_tsne['Y']
-
-    Embeddings_X["4"] = dr_umap['X']
-    Embeddings_Y["4"] = dr_umap['Y']
+    Embeddings_Y = pd.DataFrame( index=lf.ca.CellID )
+    Embeddings_Y = pd.concat( [
+            pd.DataFrame(adata.obsm['X_umap'],index=adata.obs.index)[1] ,
+            pd.DataFrame(adata.obsm['X_pca'],index=adata.obs.index)[1] ,
+            dr_tsne['Y'] ,
+            dr_umap['Y']
+        ], sort=False, axis=1, join='outer' )
 
     pc_to_use = 2
 
+    ### metadata
     metaJson = {}
 
     metaJson['embeddings'] = [
         {
             "id": -1,
-            "name": f"Scanpy t-SNE {pc_to_use}PC"
+            "name": f"Scanpy t-SNE (highly variable genes) {pc_to_use}PCs"
         },
         {
             "id": 1,
-            "name": f"Scanpy UMAP {pc_to_use}PC"
+            "name": f"Scanpy UMAP  (highly variable genes) {pc_to_use}PCs"
         },
         {
             "id": 2,
