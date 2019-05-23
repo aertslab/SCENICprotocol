@@ -42,6 +42,15 @@ def integrateOutput( args ):
     dr_tsne = pd.read_csv( 'scenic_tsne.txt', sep='\t', header=0, index_col=0 )
     ###
 
+    ### fix regulon objects to display properly in SCope:
+    auc_mtx.columns = auc_mtx.columns.str.replace('\(','_(')
+    regulons.dtype.names = tuple( [ x.replace("(","_(") for x in regulons.dtype.names ] )
+    # regulon thresholds
+    rt = meta['regulonThresholds']
+    for i,x in enumerate(rt):
+        tmp = x.get('regulon').replace("(","_(")
+        x.update( {'regulon': tmp} )
+
     tsneDF = pd.DataFrame(adata.obsm['X_tsne'], columns=['_X', '_Y'])
 
     Embeddings_X = pd.DataFrame()
@@ -119,7 +128,7 @@ def integrateOutput( args ):
     ]
 
     # SCENIC regulon thresholds:
-    metaJson["regulonThresholds"] = meta['regulonThresholds']
+    metaJson["regulonThresholds"] = rt
 
     for i in range(max(set([int(x) for x in adata.obs['louvain']])) + 1):
         clustDict = {}
