@@ -61,6 +61,7 @@ def integrateOutput( args ):
             dr_tsne['X'] ,
             dr_umap['X']
         ], sort=False, axis=1, join='outer' )
+    Embeddings_X.columns = ['1','2','3','4']
 
     Embeddings_Y = pd.DataFrame( index=lf.ca.CellID )
     Embeddings_Y = pd.concat( [
@@ -69,6 +70,7 @@ def integrateOutput( args ):
             dr_tsne['Y'] ,
             dr_umap['Y']
         ], sort=False, axis=1, join='outer' )
+    Embeddings_Y.columns = ['1','2','3','4']
 
     pc_to_use = 2
 
@@ -159,8 +161,10 @@ def integrateOutput( args ):
         "ClusterID": np.array(adata.obs['louvain'].values)
     }
 
+    hvg = [ int(x in adata.var['highly_variable']) for x in lf.ra.Gene ]
     row_attrs = {
         "Gene": lf.ra.Gene,
+        "highVarGene": np.array(hvg),
         "Regulons": regulons,
     }
 
