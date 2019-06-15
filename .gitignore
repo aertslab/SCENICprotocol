@@ -9,3 +9,5 @@ work/
 output/
 testing/
 notes
+notebooks/.ipynb_checkpoints/
+
