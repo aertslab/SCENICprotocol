@@ -14,7 +14,7 @@ import base64
 ################################################################################
 ################################################################################
 
-parser = argparse.ArgumentParser(description='Basic filtering using Scanpy')
+parser = argparse.ArgumentParser(description='Integrate output from pySCENIC and Scanpy')
 parser.add_argument('--anndata', help='Intermediate filename storing Scanpy preprocessing output', required=True, default='anndata.h5ad' )
 parser.add_argument('--loom_pyscenic', help='Loom file from pySCENIC', required=True, default='pyscenic.loom' )
 parser.add_argument('--loom_output', help='Final loom file with pySCENIC and Scanpy results integrated', required=True, default='pyscenic.loom' )
@@ -118,6 +118,10 @@ def integrateOutput( args ):
     ]
 
     metaJson["annotations"] = [
+        {
+            "name": "Louvain_clusters_Scanpy",
+            "values": list(set( adata.obs['louvain'].astype(np.str) ))
+        },
         #{
         #    "name": "Genotype",
         #    "values": list(set(adata.obs['Genotype'].values))
@@ -149,6 +153,7 @@ def integrateOutput( args ):
         "CellID": np.array(adata.obs.index),
         "nUMI": np.array(adata.obs['n_counts'].values),
         "nGene": np.array(adata.obs['n_genes'].values),
+        "Louvain_clusters_Scanpy": np.array( adata.obs['louvain'].values ),
         #"Genotype": np.array(adata.obs['Genotype'].values),
         #"Timepoint": np.array(adata.obs['Timepoint'].values),
         #"Sample": np.array(adata.obs['Sample'].values),
