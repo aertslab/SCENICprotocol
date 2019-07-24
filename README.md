@@ -10,6 +10,10 @@ The following tools are required to run the steps in this pipeline:
     * [Docker](https://docs.docker.com/)
     * [Singularity](https://www.sylabs.io/singularity/)
 
+The following container images will be pulled by nextflow as needed:
+* Docker: [aertslab/pyscenic:latest](https://hub.docker.com/r/aertslab/pyscenic).
+* Singularity: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033).
+* [See also here.](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
 
 
 ## Quick start
@@ -34,18 +38,18 @@ For this pipeline, we have re-packaged this software into a container with an as
 #### GRN Inference and construction of regulons
 
 Gene regulatory network inference and regulon construction is performed using a python implementation of the SCENIC software package (pySCENIC).
-A [Nextflow implementation of the SCENIC pipeline](https://github.com/aertslab/scenic-nf)
+A [Nextflow implementation of the SCENIC pipeline](https://github.com/aertslab/SCENICprotocol)
 is used for this step.
 
 Download/update the SCENIC repository:
 
-    nextflow pull aertslab/scenic-nf
+    nextflow pull aertslab/SCENICprotocol
  
 Run the SCENIC pipeline:
 
-    nextflow run aertslab/scenic-nf \
+    nextflow run aertslab/SCENICprotocol \
         -profile singularity \
-        --expr expr_mat.loom \
+        --loom_input expr_mat.loom \
         --TFs allTFs_hg38.txt \
         --motifs motifs.tbl \
         --db *feather
@@ -66,11 +70,6 @@ To produce a loom file that is compatible with the SCope viewer:
 
 ## References and more information
 
-### Scanpy
-* [Scanpy on GitHub](https://github.com/theislab/scanpy)
-* [Scanpy documentation](https://scanpy.readthedocs.io/)
-* [Scanpy publication](https://doi.org/10.1186/s13059-017-1382-0)
-
 ### SCENIC
 * [SCENIC Nextflow pipeline](https://github.com/aertslab/scenic-nf)
 * [SCENIC (R) on GitHub](https://github.com/aertslab/SCENIC)
@@ -84,6 +83,11 @@ To produce a loom file that is compatible with the SCope viewer:
 * [SCope on GitHub](https://github.com/aertslab/SCope)
 * [SCopeLoomR](https://github.com/aertslab/SCopeLoomR)
 * [SCopeLoomPy](https://github.com/aertslab/SCopeLoomPy)
+
+### Scanpy
+* [Scanpy on GitHub](https://github.com/theislab/scanpy)
+* [Scanpy documentation](https://scanpy.readthedocs.io/)
+* [Scanpy publication](https://doi.org/10.1186/s13059-017-1382-0)
 
 
 
