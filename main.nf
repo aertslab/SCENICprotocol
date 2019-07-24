@@ -18,7 +18,7 @@ file( "${params.outdir}" ).mkdirs()
 
 process filter {
     cache 'deep'
-    container params.scanpy_container
+    container params.pyscenic_container
 
     input:
     file loomUnfiltered from file( params.loom_input )
@@ -50,7 +50,7 @@ expr.last().collectFile(storeDir:params.outdir)
 
 process preprocess {
     cache 'deep'
-    container params.scanpy_container
+    container params.pyscenic_container
     input:
     file 'anndata.h5ad' from SCfilter
     output:
@@ -66,7 +66,7 @@ process preprocess {
 
 process pca {
     cache 'deep'
-    container params.scanpy_container
+    container params.pyscenic_container
     input:
     file 'anndata.h5ad' from SCpreprocess
     output:
@@ -81,7 +81,7 @@ process pca {
 
 process visualize {
     cache 'deep'
-    container params.scanpy_container
+    container params.pyscenic_container
     input:
     file 'anndata.h5ad' from SCpca
     output:
@@ -96,7 +96,7 @@ process visualize {
 
 process cluster {
     cache 'deep'
-    container params.scanpy_container
+    container params.pyscenic_container
     input:
     file 'anndata.h5ad' from SCvisualize
     output:
@@ -215,7 +215,7 @@ process AUCell {
 
 process visualizeAUC {
     cache 'deep'
-    container params.scanpy_container
+    container params.pyscenic_container
 
     input:
     file params.pyscenic_output from scenicAUC1
@@ -243,7 +243,7 @@ process visualizeAUC {
 
 process integrateOutput {
     cache 'deep'
-    container params.scanpy_container
+    container params.pyscenic_container
 
     input:
     file params.pyscenic_output from scenicAUC2
