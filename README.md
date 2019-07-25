@@ -16,17 +16,54 @@ The following container images will be pulled by nextflow as needed:
 * [See also here.](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
 
 
+---
 ## Quick start
+### Running the pipeline on the example dataset
+
+#### Download testing dataset
+
+Download a minimum set of SCENIC database files for a human dataset (approximately 78 MB).
+This small test dataset takes approiximately 30s to run using 6 threads on a standard desktop computer.
+
+    mkdir example && cd example/
+    # Transcription factors:
+    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/allTFs_hg38.txt 
+    # Motif to TF annotation database:
+    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/motifs.tbl
+    # Ranking databases:
+    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/genome-ranking.feather
+    # Finally, get a small sample expression matrix (loom format):
+    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/expr_mat.loom
 
 
+#### Running the example pipeline
+
+Either Docker or Singularity images can be used by specifying the appropriate profile (`-profile docker` or `-profile singularity`).
+
+##### Using loom input
+
+    nextflow run aertslab/SCENICprotocol \
+        -profile docker \
+        --loom_input expr_mat.loom \
+        --loom_output pyscenic_integrated-output.loom \
+        --TFs allTFs_hg38.txt \
+        --motifs motifs.tbl \
+        --pyscenic_tag latest \
+        --db *feather
+
+By default, this pipeline uses the container tag specified by the `--pyscenic_tag` parameter.
+This should currently be set to `latest` to avoid a bug in the pySCENIC v0.9.14 release.
+A custom container can be used (e.g. one built on a local machine) by passing the name of this container to the `--pyscenic_container` parameter.
+
+---
 ## Pipeline
-[Pipeline documentation](docs/pipeline.md)
+Full pipeline documentation:
+* [Pipeline documentation](docs/pipeline.md)
 
 
 ## References and more information
 
 ### SCENIC
-* [SCENIC Nextflow pipeline](https://github.com/aertslab/scenic-nf)
 * [SCENIC (R) on GitHub](https://github.com/aertslab/SCENIC)
 * [SCENIC website](http://scenic.aertslab.org/)
 * [SCENIC publication](https://doi.org/10.1016/j.cell.2018.05.057)
