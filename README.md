@@ -2,6 +2,26 @@
 
 ## Overview
 
+* [Requirements](#requirements)
+* [Quick start](#quick-start)
+* [Full pipeline documentation](docs/pipeline.md)
+* Case studies
+  * PBMC 10k dataset (10x Genomics)
+    * Full SCENIC analysis, plus filtering, clustering, visualization, and SCope-ready loom file creation:
+      * [Jupyter notebook](notebooks/PBMC10k_SCENIC-protocol-CLI.ipynb) 
+        | 
+        [HTML render](http://htmlpreview.github.io/?https://github.com/aertslab/SCENICprotocol/blob/master/notebooks/PBMC10k_SCENIC-protocol-CLI.html)
+    * Extended analysis post-SCENIC:
+      * [Jupyter notebook](notebooks/PBMC10k_downstream-analysis.ipynb)
+        | 
+        [HTML render](http://htmlpreview.github.io/?https://github.com/aertslab/SCENICprotocol/blob/master/notebooks/PBMC10k_downstream-analysis.html)
+  * Cancer data sets
+    * [Jupyter notebook](notebooks/SCENIC%20Protocol%20-%20Case%20study%20-%20Cancer%20data%20sets.ipynb)
+  * Mouse brain data set
+    * [Jupyter notebook](notebooks/SCENIC%20Protocol%20-%20Case%20study%20-%20Mouse%20brain%20data%20set.ipynb)
+* [References and more information](#references-and-more-information)
+
+
 ## Requirements
 
 The following tools are required to run the steps in this pipeline:
@@ -56,10 +76,6 @@ This should currently be set to `latest` to avoid a bug in the pySCENIC v0.9.14 
 A custom container can be used (e.g. one built on a local machine) by passing the name of this container to the `--pyscenic_container` parameter.
 
 ---
-## Pipeline
-Full pipeline documentation:
-* [Pipeline documentation](docs/pipeline.md)
-
 
 ## References and more information
 
