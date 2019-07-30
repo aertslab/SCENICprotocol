@@ -68,11 +68,10 @@ Either Docker or Singularity images can be used by specifying the appropriate pr
         --loom_output pyscenic_integrated-output.loom \
         --TFs allTFs_hg38.txt \
         --motifs motifs.tbl \
-        --pyscenic_tag latest \
         --db *feather
 
 By default, this pipeline uses the container tag specified by the `--pyscenic_tag` parameter.
-This should currently be set to `latest` to avoid a bug in the pySCENIC v0.9.14 release.
+This is currently set to `0.9.15`, which uses a container with both pySCENIC and Scanpy `1.4.4` installed.
 A custom container can be used (e.g. one built on a local machine) by passing the name of this container to the `--pyscenic_container` parameter.
 
 ---
