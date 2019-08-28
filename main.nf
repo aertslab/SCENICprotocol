@@ -24,7 +24,22 @@ include filter from './modules/filter' params(  //params)
     thr_pct_mito: 0.25,
 )
 
-// include './modules/pyscenic' params(params)
+include './modules/pyscenic' params(params)
+//    loom_filtered: 'filtered.loom' ,
+//    outdir: params.outdir ,
+//    TFs : "allTFs_hg38.txt" ,
+//    motifANN : "motifs.tbl" ,
+//    motifDB : "*feather" ,
+//    trackANN : "" ,
+//    trackDB : "" ,
+//    grn : "grnboost2" ,
+//    loom_filtered : 'filtered.loom' ,
+//    cell_id_attribute : "CellID" ,
+//    gene_attribute : "Gene" ,
+//)
+
+
+
 // include 'modules/BPanalysis'
 // include 'modules/integrate'
     //(params.loom_output): 'pyscenic_integrated-output.loom'
@@ -37,10 +52,10 @@ workflow {
     loomuf = Channel.fromPath( params.loom_input )
     loomf = filter( loomuf )
 
-    //SCENIC(
-    //    loomf[0],
-    //    params.TFs
-    //    )
+    SCENIC(
+        loomf[0],
+        params.TFs
+        )
 }
 
 workflow.onComplete {
