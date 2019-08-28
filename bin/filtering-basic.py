@@ -29,7 +29,7 @@ def initialFiltering( args ):
 
     ##################################################
     # read unfiltered data from a loom file
-    adata = sc.read_loom(args.loom_input)
+    adata = sc.read_loom(args.loom_input, validate=False)
 
     ##################################################
     # basic filtering / stats
