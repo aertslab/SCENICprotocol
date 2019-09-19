@@ -1,9 +1,9 @@
-# Reproducible and scalable regulatory network reconstruction from single cell transcriptomics datasets using SCENIC
+# A scalable SCENIC workflow for single-cell gene regulatory network analysis
 
 ## Overview
 
-* [Requirements](#requirements)
 * [Quick start](#quick-start)
+* [Requirements](#requirements)
 * [Installation](docs/installation.md)
 * [Full pipeline documentation](docs/pipeline.md)
 * Case studies
@@ -23,6 +23,7 @@
 * [References and more information](#references-and-more-information)
 
 
+<img src="docs/figs/Figure01.png" width=300 align=center alt="SCENIC workflow diagram">
 
 
 ---
