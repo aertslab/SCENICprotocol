@@ -23,7 +23,9 @@
 * [References and more information](#references-and-more-information)
 
 
-<img src="docs/figs/Figure01.png" width=300 align=center alt="SCENIC workflow diagram">
+<p align="center">
+<img src="docs/figs/Figure01.png" width="600" alt="SCENIC workflow diagram">
+</p>
 
 
 ---
