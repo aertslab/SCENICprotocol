@@ -4,7 +4,6 @@ work/
 *nextflow.log*
 .nextflow/
 *html*
-*png*
 *svg*
 output/
 testing/
