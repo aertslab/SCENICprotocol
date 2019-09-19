@@ -16,14 +16,14 @@ docker pull aertslab/pyscenic:0.9.16
 
 This image can also be built from scratch on your own system:
 ```bash
-    wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/Dockerfile
-    wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
-    docker build -t aertslab/pyscenic:0.9.16 .
+wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/Dockerfile
+wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
+docker build -t aertslab/pyscenic:0.9.16 .
 ```
 
 You can also specify the pySCENIC version used during the build:
 ```bash
-    docker build -t aertslab/pyscenic:0.9.16 . --build-arg version=0.9.16
+docker build -t aertslab/pyscenic:0.9.16 . --build-arg version=0.9.16
 ```
 
 Basic test of the image:
@@ -35,7 +35,7 @@ docker run -it --rm aertslab/pyscenic:0.9.16 pyscenic -h
 Singularity images are currently hosted on [Singularity Hub](https://singularity-hub.org).
 These can be obtained by:
 ```bash
-    singularity pull --name aertslab-pyscenic-0.9.16.sif shub://aertslab/pySCENIC:0.9.16
+singularity pull --name aertslab-pyscenic-0.9.16.sif shub://aertslab/pySCENIC:0.9.16
 ```
     
 However, Singularity Hub currently requires an account for most actions, including container pulls.
@@ -112,7 +112,7 @@ pyscenic -h
 
 Both the container and the conda environments can be used as a remote kernel in a Jupyter notebook.
 
-For example, to add a Singulariy kernel to Jupyter Lab installation, run a commane similar to the following from the Jupyter Lab server:
+For example, to add a Singulariy kernel to Jupyter Lab installation, run a command similar to the following from the Jupyter Lab server:
 ```bash
 python3 -m remote_ikernel manage --add \
     --kernel_cmd="singularity exec -B /data /path/to/aertslab-pyscenic-0.9.16.sif ipython kernel -f {connection_file}" \
@@ -133,4 +133,6 @@ python3 -m remote_ikernel manage --add \
     --workdir="~/" \
     --language=python3
 ```
+
+After this, it should be possible to select the pySCENIC kernel in a Jupyter notebook.
 
