@@ -4,6 +4,7 @@
 
 * [Requirements](#requirements)
 * [Quick start](#quick-start)
+* [Installation](docs/installation.md)
 * [Full pipeline documentation](docs/pipeline.md)
 * Case studies
   * PBMC 10k dataset (10x Genomics)
@@ -22,9 +23,24 @@
 * [References and more information](#references-and-more-information)
 
 
-## Requirements
 
-The following tools are required to run the steps in this pipeline:
+
+---
+## Quick start
+
+### Running the pipeline in a Jupyter notebook
+We recommend using 
+    [this notebook](notebooks/PBMC10k_SCENIC-protocol-CLI.ipynb) 
+    as a template for running an interactive analysis in Jupyter.
+See the 
+    [installation instructions](docs/installation.md)
+    for information on setting up a kernel with pySCENIC and other required packages.
+
+### Running the Nextflow pipeline on the example dataset
+
+#### Requirements
+
+The following tools are required to run the steps in this Nextflow pipeline:
 * [Nextflow](https://www.nextflow.io/)
 * A container system, either of:
     * [Docker](https://docs.docker.com/)
@@ -34,11 +50,6 @@ The following container images will be pulled by nextflow as needed:
 * Docker: [aertslab/pyscenic:latest](https://hub.docker.com/r/aertslab/pyscenic).
 * Singularity: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033).
 * [See also here.](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
-
-
----
-## Quick start
-### Running the pipeline on the example dataset
 
 #### Download testing dataset
 
@@ -71,7 +82,7 @@ Either Docker or Singularity images can be used by specifying the appropriate pr
         --db *feather
 
 By default, this pipeline uses the container tag specified by the `--pyscenic_tag` parameter.
-This is currently set to `0.9.15`, which uses a container with both pySCENIC and Scanpy `1.4.4` installed.
+This is currently set to `0.9.16`, which uses a container with both pySCENIC and Scanpy `1.4.4.post1` installed.
 A custom container can be used (e.g. one built on a local machine) by passing the name of this container to the `--pyscenic_container` parameter.
 
 ---
