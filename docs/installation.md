@@ -14,15 +14,11 @@ A pre-built container is available from DockerHub:
 docker pull aertslab/pyscenic:0.9.18
 ```
 
-This image can also be built from scratch on your own system:
+This image can also be built from scratch on your own system using the pySCENIC Dockerfile and requirements file.
+The pySCENIC version needs to be specified during the build:
 ```bash
 wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/Dockerfile
 wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
-docker build -t aertslab/pyscenic:0.9.18 .
-```
-
-You can also specify the pySCENIC version used during the build:
-```bash
 docker build -t aertslab/pyscenic:0.9.18 . --build-arg version=0.9.18
 ```
 
@@ -41,23 +37,22 @@ singularity pull --name aertslab-pyscenic-0.9.18.sif shub://aertslab/pySCENIC:0.
 However, Singularity Hub currently requires an account for most actions, including container pulls.
 Alternatives are:
 
-Build the container from the 
-    [recipe file](https://github.com/aertslab/pySCENIC/blob/master/Singularity):
+#### Build the Singularity container from the Docker image
+* From the public DockerHub:
 ```bash
-git pull https://raw.githubusercontent.com/aertslab/pySCENIC/master/Singularity.0.9.18
-git pull https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
-singularity build aertslab-pyscenic-0.9.18.sif Singularity.0.9.18
+singularity build aertslab-pyscenic-0.9.18.sif docker://aertslab/pyscenic:0.9.18
 ```
 
-Build the Singularity container from the Docker image:
-* From the local Docker daemon:
+* From the local Docker daemon (this will only work if you have already built or pulled the docker image to your local machine):
 ```bash
 singularity build aertslab-pyscenic-0.9.18.sif docker-daemon://aertslab/pyscenic:0.9.18
 ```
 
-* From the public DockerHub:
+#### Build the container from the [recipe file](https://github.com/aertslab/pySCENIC/blob/master/Singularity):
 ```bash
-singularity build aertslab-pyscenic-0.9.18.sif docker://aertslab/pyscenic:0.9.18
+wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/Singularity.0.9.18
+wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
+singularity build aertslab-pyscenic-0.9.18.sif Singularity.0.9.18
 ```
 
 Basic test of the image:
