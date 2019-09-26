@@ -57,7 +57,7 @@ singularity build aertslab-pyscenic-0.9.18.sif Singularity.0.9.18
 
 Basic test of the image:
 ```bash
-singularity run aertslab-pyscenic-0.9.18.sif pyscenic -h
+singularity exec aertslab-pyscenic-0.9.18.sif pyscenic -h
 ```
 
 ## Conda
@@ -117,6 +117,7 @@ python3 -m remote_ikernel manage --add \
     --workdir="~/" \
     --language=python3
 ```
+Note that the `-B` option needs to be used here to specify which files from the host system will be available inside the contaienr.
 
 A similar command allows the use of a Conda environment in place of Singularity:
 ```bash
