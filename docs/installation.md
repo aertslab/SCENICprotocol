@@ -20,6 +20,7 @@ wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/Dockerfile
 wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
 docker build -t aertslab/pyscenic:0.9.16 .
 ```
+The build time is estimated to be approximately 10 minutes on a modern desktop.
 
 You can also specify the pySCENIC version used during the build:
 ```bash
@@ -54,6 +55,7 @@ Build the Singularity container from the Docker image:
 ```bash
 singularity build aertslab-pyscenic-0.9.16.sif docker-daemon://aertslab/pyscenic:0.9.16
 ```
+The build time is estimated to be approximately 10 minutes on a modern desktop.
 
 * From the public DockerHub:
 ```bash

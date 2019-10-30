@@ -41,7 +41,7 @@ See the
 
 ### Running the Nextflow pipeline on the example dataset
 
-#### Requirements
+#### Requirements (Nextflow/containers)
 
 The following tools are required to run the steps in this Nextflow pipeline:
 * [Nextflow](https://www.nextflow.io/)
@@ -57,7 +57,7 @@ The following container images will be pulled by nextflow as needed:
 #### Download testing dataset
 
 Download a minimum set of SCENIC database files for a human dataset (approximately 78 MB).
-This small test dataset takes approiximately 30s to run using 6 threads on a standard desktop computer.
+This small test dataset takes approximately 30s to run using 6 threads on a standard desktop computer.
 
     mkdir example && cd example/
     # Transcription factors:
@@ -87,6 +87,21 @@ Either Docker or Singularity images can be used by specifying the appropriate pr
 By default, this pipeline uses the container tag specified by the `--pyscenic_tag` parameter.
 This is currently set to `0.9.16`, which uses a container with both pySCENIC and Scanpy `1.4.4.post1` installed.
 A custom container can be used (e.g. one built on a local machine) by passing the name of this container to the `--pyscenic_container` parameter.
+
+##### Expected output
+The output of this pipeline is a loom-formatted file (by default: `output/pyscenic_integrated-output.loom`) containing:
+    * The original expression matrix
+    * The pySCENIC-specific results:
+        * Regulons (TFs and their target genes)
+        * AUCell matrix (cell enrichment scores for each regulon)
+        * Dimensionality reduction embeddings based on the AUCell matrix (t-SNE, UMAP)
+    *  Results from the parallel best-practices analysis using highly variable genes:
+        * Dimensionality reduction embeddings (t-SNE, UMAP)
+        * Louvain clustering annotations
+
+## General requirements for this workflow
+* Python version 3.6 or greater
+* Tested on various Unix/Linux distributions (Ubuntu 18.04, CentOS 7.6.1810, MacOS 10.14.5)
 
 ---
 
