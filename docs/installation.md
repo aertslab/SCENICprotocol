@@ -11,60 +11,55 @@ See also this [additional information](https://github.com/aertslab/pySCENIC#dock
 A pre-built container is available from DockerHub:
     [aertslab/pyscenic:latest](https://hub.docker.com/r/aertslab/pyscenic):
 ```bash
-docker pull aertslab/pyscenic:0.9.16
+docker pull aertslab/pyscenic:0.9.18
 ```
 
-This image can also be built from scratch on your own system:
+This image can also be built from scratch on your own system using the pySCENIC Dockerfile and requirements file.
+The pySCENIC version needs to be specified during the build:
 ```bash
 wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/Dockerfile
 wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
-docker build -t aertslab/pyscenic:0.9.16 .
+docker build -t aertslab/pyscenic:0.9.18 . --build-arg version=0.9.18
 ```
 The build time is estimated to be approximately 10 minutes on a modern desktop.
 
-You can also specify the pySCENIC version used during the build:
-```bash
-docker build -t aertslab/pyscenic:0.9.16 . --build-arg version=0.9.16
-```
-
 Basic test of the image:
 ```bash
-docker run -it --rm aertslab/pyscenic:0.9.16 pyscenic -h
+docker run -it --rm aertslab/pyscenic:0.9.18 pyscenic -h
 ```
 
 ### Singularity
 Singularity images are currently hosted on [Singularity Hub](https://singularity-hub.org).
 These can be obtained by:
 ```bash
-singularity pull --name aertslab-pyscenic-0.9.16.sif shub://aertslab/pySCENIC:0.9.16
+singularity pull --name aertslab-pyscenic-0.9.18.sif shub://aertslab/pySCENIC:0.9.18
 ```
     
 However, Singularity Hub currently requires an account for most actions, including container pulls.
 Alternatives are:
 
-Build the container from the 
-    [recipe file](https://github.com/aertslab/pySCENIC/blob/master/Singularity):
+#### Build the Singularity container from the Docker image
+* From the public DockerHub:
 ```bash
-git pull https://raw.githubusercontent.com/aertslab/pySCENIC/master/Singularity.0.9.16
-git pull https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
-singularity build aertslab-pyscenic-0.9.16.sif Singularity.0.9.16
+singularity build aertslab-pyscenic-0.9.18.sif docker://aertslab/pyscenic:0.9.18
 ```
 
-Build the Singularity container from the Docker image:
-* From the local Docker daemon:
+* From the local Docker daemon (this will only work if you have already built or pulled the docker image to your local machine):
 ```bash
-singularity build aertslab-pyscenic-0.9.16.sif docker-daemon://aertslab/pyscenic:0.9.16
+singularity build aertslab-pyscenic-0.9.18.sif docker-daemon://aertslab/pyscenic:0.9.18
 ```
 The build time is estimated to be approximately 10 minutes on a modern desktop.
 
-* From the public DockerHub:
+#### Build the container from the [recipe file](https://github.com/aertslab/pySCENIC/blob/master/Singularity):
 ```bash
-singularity build aertslab-pyscenic-0.9.16.sif docker://aertslab/pyscenic:0.9.16
+wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/Singularity.0.9.18
+wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
+singularity build aertslab-pyscenic-0.9.18.sif Singularity.0.9.18
 ```
 
 Basic test of the image:
 ```bash
-singularity run aertslab-pyscenic-0.9.16.sif pyscenic -h
+singularity exec aertslab-pyscenic-0.9.18.sif pyscenic -h
 ```
 
 ## Conda
@@ -117,19 +112,20 @@ Both the container and the conda environments can be used as a remote kernel in 
 For example, to add a Singulariy kernel to Jupyter Lab installation, run a command similar to the following from the Jupyter Lab server:
 ```bash
 python3 -m remote_ikernel manage --add \
-    --kernel_cmd="singularity exec -B /data /path/to/aertslab-pyscenic-0.9.16.sif ipython kernel -f {connection_file}" \
-    --name="pyscenic-0916-singularity" \
+    --kernel_cmd="singularity exec -B /data /path/to/aertslab-pyscenic-0.9.18.sif ipython kernel -f {connection_file}" \
+    --name="pyscenic-0918-singularity" \
     --interface=ssh \
     --host=hostname \
     --workdir="~/" \
     --language=python3
 ```
+Note that the `-B` option needs to be used here to specify which files from the host system will be available inside the contaienr.
 
 A similar command allows the use of a Conda environment in place of Singularity:
 ```bash
 python3 -m remote_ikernel manage --add \
     --kernel_cmd="source /path/to/anaconda3/etc/profile.d/conda.sh && conda activate scenic_protocol && /path/to/envs/scenic_protocol/bin/ipython3 kernel -f {connection_file}" \
-    --name="pyscenic-0916-conda" \
+    --name="pyscenic-0918-conda" \
     --interface=ssh \
     --host=hostname \
     --workdir="~/" \
