@@ -21,6 +21,7 @@ wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/Dockerfile
 wget https://raw.githubusercontent.com/aertslab/pySCENIC/master/requirements_docker.txt
 docker build -t aertslab/pyscenic:0.9.18 . --build-arg version=0.9.18
 ```
+The build time is estimated to be approximately 10 minutes on a modern desktop.
 
 Basic test of the image:
 ```bash
@@ -47,6 +48,7 @@ singularity build aertslab-pyscenic-0.9.18.sif docker://aertslab/pyscenic:0.9.18
 ```bash
 singularity build aertslab-pyscenic-0.9.18.sif docker-daemon://aertslab/pyscenic:0.9.18
 ```
+The build time is estimated to be approximately 10 minutes on a modern desktop.
 
 #### Build the container from the [recipe file](https://github.com/aertslab/pySCENIC/blob/master/Singularity):
 ```bash
