@@ -59,7 +59,26 @@ singularity build aertslab-pyscenic-0.9.18.sif Singularity.0.9.18
 
 Basic test of the image:
 ```bash
-singularity exec aertslab-pyscenic-0.9.18.sif pyscenic -h
+singularity run aertslab-pyscenic-0.9.18.sif pyscenic -h
+```
+
+### Volume mounts
+By default, later versions of Singularity automatically mount the user home folder inside of the container and any files within are accessible to the container software.
+However, when using Docker, or when needing to access files outside of the home folder on Singularity, it is necessary to manually specify the volumes to be mounted.
+The easiest method is to specify the same common path on the host and container.
+For example, if trying to access two resource files at:
+```bash
+/data/resources/cisTarget/motifs/motifs-v9-nr.hgnc-m0.001-o0.0.tbl
+/data/resources/cisTarget/databases/hg38__refseq-r80__500bp_up_and_100bp_down_tss.mc9nr.feather
+```
+Mounting the `/data` volume is sufficient.
+The container would need to be started as:
+```bash
+singularity run -B /data:/data aertslab-pyscenic-0.9.18.sif pyscenic [...]
+```
+or:
+```bash
+docker run -it --rm -v /data:/data aertslab/pyscenic:0.9.18 pyscenic [...]
 ```
 
 ## Conda
@@ -112,7 +131,7 @@ Both the container and the conda environments can be used as a remote kernel in 
 For example, to add a Singulariy kernel to Jupyter Lab installation, run a command similar to the following from the Jupyter Lab server:
 ```bash
 python3 -m remote_ikernel manage --add \
-    --kernel_cmd="singularity exec -B /data /path/to/aertslab-pyscenic-0.9.18.sif ipython kernel -f {connection_file}" \
+    --kernel_cmd="singularity run -B /data /path/to/aertslab-pyscenic-0.9.18.sif ipython kernel -f {connection_file}" \
     --name="pyscenic-0918-singularity" \
     --interface=ssh \
     --host=hostname \
