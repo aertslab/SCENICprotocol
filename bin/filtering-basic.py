@@ -66,14 +66,6 @@ def initialFiltering( args ):
     # add the total counts per cell as observations-annotation to adata
     adata.obs['n_counts'] = np.ravel(adata.X.sum(axis=1))
 
-    ####################
-    # plotting:
-    sc.pl.violin(adata, ['n_genes', 'n_counts', 'percent_mito'],
-        jitter=0.4, multi_panel=True)
-
-    sc.pl.scatter(adata, x='n_counts', y='percent_mito')
-    sc.pl.scatter(adata, x='n_counts', y='n_genes')
-
     adata = adata[adata.obs['n_genes'] < args.thr_n_genes, :]
     adata = adata[adata.obs['percent_mito'] < args.thr_pct_mito, :]
 
