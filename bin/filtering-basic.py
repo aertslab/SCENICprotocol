@@ -62,7 +62,7 @@ def initialFiltering( args ):
     if( sum(mito_genes)==0 ):
         adata.obs['percent_mito'] = 0.0
     else:
-        adata.obs['percent_mito'] = np.ravel(np.sum(np.asmatrix(adata[:, mito_genes].X), axis=1)) / np.ravel(np.sum(adata.X, axis=1))
+        adata.obs['percent_mito'] = np.ravel(np.sum(np.asmatrix(adata[:, mito_genes].X.todense()), axis=1)) / np.ravel(np.sum(adata.X, axis=1))
     # add the total counts per cell as observations-annotation to adata
     adata.obs['n_counts'] = np.ravel(adata.X.sum(axis=1))
 
