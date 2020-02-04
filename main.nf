@@ -5,10 +5,6 @@ params.each { println "${it}" }
 println( "***\n")
 
 
-// process importData {
-// 
-// }
-
 file( "${params.outdir}" ).mkdirs()
 
 
@@ -210,8 +206,6 @@ process AUCell {
         --num_workers ${params.threads}
     """
 }
-
-// AUCmat.last().collectFile(storeDir:params.outdir)
 
 process visualizeAUC {
     cache 'deep'
