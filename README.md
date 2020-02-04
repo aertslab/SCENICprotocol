@@ -92,6 +92,12 @@ By default, this pipeline uses the container tag specified by the `--pyscenic_ta
 This is currently set to `0.9.16`, which uses a container with both pySCENIC and Scanpy `1.4.4.post1` installed.
 A custom container can be used (e.g. one built on a local machine) by passing the name of this container to the `--pyscenic_container` parameter.
 
+#### Use of multiprocessing mode (experimental)
+
+Passing the `--multiprocessing` option when starting nextflow will run the GRN step (GRNBoost2) using a multiprocessing pool in place of Dask.
+For single-node jobs, this could be more stable than the default Dask mode.
+This currently requires the `aertslab/pyscenic:0.9.19-dev` image.
+
 ##### Expected output
 The output of this pipeline is a loom-formatted file (by default: `output/pyscenic_integrated-output.loom`) containing:
     * The original expression matrix
