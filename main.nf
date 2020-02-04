@@ -157,6 +157,7 @@ process GRNinference {
         --method ${params.grn} \
         --cell_id_attribute ${params.cell_id_attribute} \
         --gene_attribute ${params.gene_attribute} \
+        ${(params.containsKey('multiprocessing')) ? '--client_or_address multiprocessing' : ''} \
         ${params.loom_filtered} \
         ${TFs}
     """
