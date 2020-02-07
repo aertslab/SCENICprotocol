@@ -147,14 +147,15 @@ process GRNinference {
     file 'adj.tsv' into GRN
 
     """
-    pyscenic grn \
+    arboreto_with_multiprocessing.py \
+        ${params.loom_filtered} \
+        ${TFs} \
+        --method ${params.grn} \
         --num_workers ${params.threads} \
         -o adj.tsv \
-        --method ${params.grn} \
+        ${(params.containsKey('sparse')) ? '--sparse' : ''} \
         --cell_id_attribute ${params.cell_id_attribute} \
         --gene_attribute ${params.gene_attribute} \
-        ${params.loom_filtered} \
-        ${TFs}
     """
 }
 
