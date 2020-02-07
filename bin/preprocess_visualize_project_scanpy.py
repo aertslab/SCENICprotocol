@@ -33,6 +33,9 @@ def preprocess( args ):
     # keep only highly variable genes:
     adata = adata[:, adata.var['highly_variable']]
 
+    # temporary fix for https://github.com/theislab/scanpy/issues/1010
+    adata = adata.copy()
+
     # regress out total counts per cell and the percentage of mitochondrial genes expressed
     sc.pp.regress_out(adata, ['n_counts', 'percent_mito'], n_jobs=args.threads)
 
