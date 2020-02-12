@@ -154,6 +154,7 @@ process GRNinference {
         --num_workers ${params.threads} \
         -o adj.tsv \
         ${(params.containsKey('sparse')) ? '--sparse' : ''} \
+        ${(params.containsKey('seed')) ? "--seed  ${params.seed}" : ""} \
         --cell_id_attribute ${params.cell_id_attribute} \
         --gene_attribute ${params.gene_attribute} \
     """
