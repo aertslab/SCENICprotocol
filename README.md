@@ -58,25 +58,35 @@ The following container images will be pulled by nextflow as needed:
 * Singularity: [aertslab/pySCENIC:latest](https://www.singularity-hub.org/collections/2033).
 * [See also here.](https://github.com/aertslab/pySCENIC#docker-and-singularity-images)
 
+#### Using the test profile
+
+A quick test can be accomplished using the `test` profile, which automatically pulls the testing dataset (described in full below):
+
+    nextflow run aertslab/SCENICprotocol \
+        -profile docker,test
+
+This small test dataset takes approximately 70s to run using 6 threads on a standard desktop computer.
+
 #### Download testing dataset
 
+Alternately, the same data can be run with a more verbose aproach (this is more illustrative for how to substitute other data into the pipeline).
 Download a minimum set of SCENIC database files for a human dataset (approximately 78 MB).
-This small test dataset takes approximately 30s to run using 6 threads on a standard desktop computer.
 
     mkdir example && cd example/
     # Transcription factors:
-    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/allTFs_hg38.txt 
+    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/test_TFs.txt 
     # Motif to TF annotation database:
     wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/motifs.tbl
     # Ranking databases:
     wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/genome-ranking.feather
-    # Finally, get a small sample expression matrix (loom format):
-    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/expr_mat.loom
+    # Finally, get a tiny sample expression matrix (loom format):
+    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/expr_mat_tiny.loom
 
 
 #### Running the example pipeline
 
 Either Docker or Singularity images can be used by specifying the appropriate profile (`-profile docker` or `-profile singularity`).
+Please note that for the tiny test dataset to run successfully, the default thresholds need to be lowered.
 
 ##### Using loom input
 
@@ -86,7 +96,8 @@ Either Docker or Singularity images can be used by specifying the appropriate pr
         --loom_output pyscenic_integrated-output.loom \
         --TFs allTFs_hg38.txt \
         --motifs motifs.tbl \
-        --db *feather
+        --db *feather \
+        --thr_min_genes 1
 
 By default, this pipeline uses the container tag specified by the `--pyscenic_tag` parameter.
 This is currently set to `0.9.16`, which uses a container with both pySCENIC and Scanpy `1.4.4.post1` installed.
