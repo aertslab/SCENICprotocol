@@ -5,10 +5,6 @@ params.each { println "${it}" }
 println( "***\n")
 
 
-// process importData {
-// 
-// }
-
 file( "${params.outdir}" ).mkdirs()
 
 
@@ -151,14 +147,16 @@ process GRNinference {
     file 'adj.tsv' into GRN
 
     """
-    pyscenic grn \
+    arboreto_with_multiprocessing.py \
+        ${params.loom_filtered} \
+        ${TFs} \
+        --method ${params.grn} \
         --num_workers ${params.threads} \
         -o adj.tsv \
-        --method ${params.grn} \
+        ${(params.containsKey('sparse')) ? '--sparse' : ''} \
+        ${(params.containsKey('seed')) ? "--seed  ${params.seed}" : ""} \
         --cell_id_attribute ${params.cell_id_attribute} \
         --gene_attribute ${params.gene_attribute} \
-        ${params.loom_filtered} \
-        ${TFs}
     """
 }
 
@@ -210,8 +208,6 @@ process AUCell {
         --num_workers ${params.threads}
     """
 }
-
-// AUCmat.last().collectFile(storeDir:params.outdir)
 
 process visualizeAUC {
     cache 'deep'
