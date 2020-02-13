@@ -74,7 +74,7 @@ Download a minimum set of SCENIC database files for a human dataset (approximate
 
     mkdir example && cd example/
     # Transcription factors:
-    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/test_TFs.txt 
+    wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/test_TFs_tiny.txt
     # Motif to TF annotation database:
     wget https://raw.githubusercontent.com/aertslab/SCENICprotocol/master/example/motifs.tbl
     # Ranking databases:
@@ -92,15 +92,15 @@ Please note that for the tiny test dataset to run successfully, the default thre
 
     nextflow run aertslab/SCENICprotocol \
         -profile docker \
-        --loom_input expr_mat.loom \
+        --loom_input expr_mat_tiny.loom \
         --loom_output pyscenic_integrated-output.loom \
-        --TFs allTFs_hg38.txt \
+        --TFs test_TFs_tiny.txt \
         --motifs motifs.tbl \
         --db *feather \
         --thr_min_genes 1
 
-By default, this pipeline uses the container tag specified by the `--pyscenic_tag` parameter.
-This is currently set to `0.9.16`, which uses a container with both pySCENIC and Scanpy `1.4.4.post1` installed.
+By default, this pipeline uses the container specified by the `--pyscenic_container` parameter.
+This is currently set to `aertslab/pyscenic:0.9.19`, which uses a container with both pySCENIC and Scanpy `1.4.4.post1` installed.
 A custom container can be used (e.g. one built on a local machine) by passing the name of this container to the `--pyscenic_container` parameter.
 
 ##### Expected output
