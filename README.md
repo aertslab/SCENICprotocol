@@ -104,15 +104,16 @@ This is currently set to `aertslab/pyscenic:0.9.19`, which uses a container with
 A custom container can be used (e.g. one built on a local machine) by passing the name of this container to the `--pyscenic_container` parameter.
 
 ##### Expected output
+
 The output of this pipeline is a loom-formatted file (by default: `output/pyscenic_integrated-output.loom`) containing:
-    * The original expression matrix
-    * The pySCENIC-specific results:
-        * Regulons (TFs and their target genes)
-        * AUCell matrix (cell enrichment scores for each regulon)
-        * Dimensionality reduction embeddings based on the AUCell matrix (t-SNE, UMAP)
-    *  Results from the parallel best-practices analysis using highly variable genes:
-        * Dimensionality reduction embeddings (t-SNE, UMAP)
-        * Louvain clustering annotations
+* The original expression matrix
+* The pySCENIC-specific results:
+    * Regulons (TFs and their target genes)
+    * AUCell matrix (cell enrichment scores for each regulon)
+    * Dimensionality reduction embeddings based on the AUCell matrix (t-SNE, UMAP)
+*  Results from the parallel best-practices analysis using highly variable genes:
+    * Dimensionality reduction embeddings (t-SNE, UMAP)
+    * Louvain clustering annotations
 
 ## General requirements for this workflow
 * Python version 3.6 or greater
