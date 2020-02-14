@@ -1,11 +1,38 @@
 #!/usr/bin/env nextflow
 
-println( "\n***\nParameters in use:")
+println( "\n***")
+println "Project name: $workflow.manifest.name"
+println "Project dir : $workflow.projectDir"
+println "Git info: $workflow.repository - $workflow.revision [$workflow.commitId]"
+println "Cmd line: $workflow.commandLine"
+println "Pipeline version: $workflow.manifest.version"
+println( "***\nParameters in use:")
 params.each { println "${it}" }
+
+
+/*
+ * scenic channel setup
+ */
+
+// channel for SCENIC databases resources:
+featherDB = Channel
+    .fromPath( params.db )
+    .collect() // use all files together in the ctx command
+
+n = Channel.fromPath(params.db).count().get()
+if( n==1 ) {
+    println( "***\nWARNING: only using a single feather database:\n  ${featherDB.get()[0]}.\nTo include all database files using pattern matching, make sure the value for the '--db' parameter is enclosed in quotes!" )
+} else {
+    println( "***\nUsing $n feather databases:")
+    featherDB.get().each {
+        println "  ${it}"
+    }
+}
 println( "***\n")
 
-
-file( "${params.outdir}" ).mkdirs()
+// expr = file(params.expr)
+tfs = file(params.TFs)
+motifs = file(params.motifs)
 
 
 /*
@@ -113,26 +140,6 @@ process cluster {
 /*
  * SCENIC steps
  */
-
-// channel for SCENIC databases resources:
-featherDB = Channel
-    .fromPath( params.db )
-    .collect() // use all files together in the ctx command
-
-n = Channel.fromPath(params.db).count().get()
-if( n==1 ) {
-    println( "***\nWARNING: only using a single feather database:\n  ${featherDB.get()[0]}.\nTo include all database files using pattern matching, make sure the value for the '--db' parameter is enclosed in quotes!\n***\n" )
-} else {
-    println( "***\nUsing $n feather databases:")
-    featherDB.get().each {
-        println "  ${it}"
-    }
-    println( "***\n")
-}
-
-// expr = file(params.expr)
-tfs = file(params.TFs)
-motifs = file(params.motifs)
 
 process GRNinference {
     cache 'deep'
