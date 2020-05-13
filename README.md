@@ -69,7 +69,7 @@ This small test dataset takes approximately 70s to run using 6 threads on a stan
 
 #### Download testing dataset
 
-Alternately, the same data can be run with a more verbose aproach (this is more illustrative for how to substitute other data into the pipeline).
+Alternately, the same data can be run with a more verbose approach (this is more illustrative for how to substitute other data into the pipeline).
 Download a minimum set of SCENIC database files for a human dataset (approximately 78 MB).
 
     mkdir example && cd example/
