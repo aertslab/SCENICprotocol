@@ -1,11 +1,19 @@
 # A scalable SCENIC workflow for single-cell gene regulatory network analysis
 
+This repository describes how to run a pySCENIC gene regulatory network inference analysis alongside a basic "best practices" expression analysis for single-cell data.
+This includes:
+* Standalone Jupyter notebooks for an interactive analysis
+* A Nextflow DSL1 workflow, which provides a semi-automated and streamlined method for running these steps
+* Details on pySCENIC installation, usage, and downstream analysis
+
+For an advanced implementation of the steps in this protocol, see **[VSN Pipelines](https://github.com/vib-singlecell-nf/vsn-pipelines)**, a Nextflow DSL2 implementation of pySCENIC with comprehensive and customizable pipelines for expression analysis.
+This includes additional pySCENIC features (multi-runs, integrated motif- and track-based regulon pruning, loom file generation).
+
 ## Overview
 
 * [Quick start](#quick-start)
-* [Requirements](#requirements)
+* [Requirements](#general-requirements-for-this-workflow)
 * [Installation](docs/installation.md)
-* [Full pipeline documentation](docs/pipeline.md)
 * Case studies
   * PBMC 10k dataset (10x Genomics)
     * Full SCENIC analysis, plus filtering, clustering, visualization, and SCope-ready loom file creation:
@@ -16,6 +24,7 @@
       * [Jupyter notebook](notebooks/PBMC10k_downstream-analysis.ipynb)
         | 
         [HTML render](http://htmlpreview.github.io/?https://github.com/aertslab/SCENICprotocol/blob/master/notebooks/PBMC10k_downstream-analysis.html)
+    * To run the same dataset through the VSN Pipelines DSL2 workflow, see [this tutorial](https://vsn-pipelines-examples.readthedocs.io/en/latest/PBMC10k.html).
   * Cancer data sets
     * [Jupyter notebook](notebooks/SCENIC%20Protocol%20-%20Case%20study%20-%20Cancer%20data%20sets.ipynb)
         | 
@@ -35,7 +44,7 @@
 ---
 ## Quick start
 
-### Running the pipeline in a Jupyter notebook
+### Running the pySCENIC pipeline in a Jupyter notebook
 We recommend using 
     [this notebook](notebooks/PBMC10k_SCENIC-protocol-CLI.ipynb) 
     as a template for running an interactive analysis in Jupyter.
@@ -129,6 +138,7 @@ The output of this pipeline is a loom-formatted file (by default: `output/pyscen
 * [SCENIC publication](https://doi.org/10.1016/j.cell.2018.05.057)
 * [pySCENIC on GitHub](https://github.com/aertslab/pySCENIC)
 * [pySCENIC documentation](https://pyscenic.readthedocs.io/en/latest/)
+* [VSN Pipelines](https://github.com/vib-singlecell-nf/vsn-pipelines), a repository of pipelines for single-cell data in Nextflow DSL2, including an implementation of pySCENIC.
 
 ### SCope
 * [SCope webserver](http://scope.aertslab.org/)
