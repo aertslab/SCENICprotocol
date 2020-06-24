@@ -6,6 +6,8 @@ This includes:
 * A Nextflow DSL1 workflow, which provides a semi-automated and streamlined method for running these steps
 * Details on pySCENIC installation, usage, and downstream analysis
 
+See also the associated publication in **Nature Protocols**: https://doi.org/10.1038/s41596-020-0336-2.
+
 For an advanced implementation of the steps in this protocol, see **[VSN Pipelines](https://github.com/vib-singlecell-nf/vsn-pipelines)**, a Nextflow DSL2 implementation of pySCENIC with comprehensive and customizable pipelines for expression analysis.
 This includes additional pySCENIC features (multi-runs, integrated motif- and track-based regulon pruning, loom file generation).
 
