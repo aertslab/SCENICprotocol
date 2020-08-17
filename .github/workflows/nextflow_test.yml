@@ -1,0 +1,27 @@
+name: nextflow_test
+
+on: 
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Nextflow
+      run: |
+        export NXF_VER='20.04.1'
+        wget -qO- get.nextflow.io | bash
+        sudo mv nextflow /usr/local/bin/
+    - name: Run nextflow test
+      run: |
+        nextflow run ${GITHUB_WORKSPACE} -profile docker,test -ansi-log false
+        cat .nextflow.log
+
