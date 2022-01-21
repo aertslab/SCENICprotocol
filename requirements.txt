@@ -29,7 +29,7 @@ idna==2.8
 importlib-metadata==0.23
 interlap==0.2.6
 ipykernel==5.1.2
-ipython==7.8.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 jedi==0.15.1
 Jinja2==2.10.3
