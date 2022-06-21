@@ -58,7 +58,7 @@ nbmerge==0.0.4
 networkx==2.3
 numba==0.46.0
 numexpr==2.7.0
-numpy==1.17.2
+numpy==1.22.0
 pandas==0.25.1
 pandocfilters==1.4.2
 papermill==1.2.0
