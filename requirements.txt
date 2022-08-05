@@ -69,7 +69,7 @@ pickleshare==0.7.5
 prompt-toolkit==2.0.10
 psutil==5.6.6
 ptyprocess==0.6.0
-pyarrow==0.15.0
+pyarrow==0.15.1
 pycparser==2.19
 Pygments==2.4.2
 pyparsing==2.4.2
