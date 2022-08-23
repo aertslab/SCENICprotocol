@@ -52,7 +52,7 @@ msgpack==0.6.2
 MulticoreTSNE==0.1
 multiprocessing-on-dill==3.5.0a4
 natsort==6.0.0
-nbconvert==5.6.0
+nbconvert==6.5.1
 nbformat==4.4.0
 nbmerge==0.0.4
 networkx==2.3
